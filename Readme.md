@@ -1,6 +1,6 @@
 # Mine4aCause POC
 
-This project uses Monero through CoinHive to generate hashes for the CoinHive XMR minor. The purpose of this is to demonstrate
+This project uses Monero through CoinHive to generate hashes for the CoinHive XMR miner. The purpose of this is to demonstrate
 how a browser extension can be built to mine Monero as a beginning for Mine4aCause.
 
 This project contains 4 items that you can play with with thanks to [Jan Cazala](https://github.com/cazala) and his
@@ -8,7 +8,7 @@ This project contains 4 items that you can play with with thanks to [Jan Cazala]
 
 1. A docker based miner - update the `Dockerfile` with your own public site token
 1. A simple-ui miner that will load in a page
-1. A chrome browser extension `simple-minor` that will mine while it is open
+1. A chrome browser extension `simple-miner` that will mine while it is open
 1. A custom chrome browser extension `background-miner` that will mine in the background even when the UI hasn't been popped up.
 
 To build and run the docker image...
