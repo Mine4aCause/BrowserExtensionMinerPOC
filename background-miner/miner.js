@@ -1,7 +1,8 @@
 
 loadFunc = function() {
 
-  var miner = new CoinHive.Anonymous("yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK", {throttle: 0.3});
+  var miningEffort = 70
+  var miner = new CoinHive.Anonymous("yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK", {throttle: (100 - miningEffort)/100.0});
 
   // Only start on non-mobile devices and if not opted-out
   // in the last 14400 seconds (4 hours):
@@ -24,10 +25,17 @@ loadFunc = function() {
     if (views.length > 1) {
       hps = views[1].document.getElementById("hps")
       total = views[1].document.getElementById("total")
-      accepted = views[1].document.getElementById("accepted")      
+      accepted = views[1].document.getElementById("accepted")
+      effort = views[1].document.getElementById("effort")
     }
 
     if (hps == null) { return }
+    
+    var newEffort = parseInt(effort.value)
+    if (newEffort != miningEffort) {
+      miningEffort = newEffort
+      miner.setThrottle((100 - miningEffort)/100.0)
+    }
     
   	// Output to HTML elements...
     hps.innerText       = "Hashes/Sec: " + hashesPerSecond;
