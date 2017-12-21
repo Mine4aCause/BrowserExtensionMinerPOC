@@ -14,4 +14,4 @@ apt-get install -y google-chrome-unstable gconf-service libasound2 libatk1.0-0 l
 RUN npm i -g coin-hive --unsafe-perm=true --allow-root
 
 # Run coin-hive
-CMD ["coin-hive", "yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK"]
+CMD ["coin-hive", "yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK", "--threads", "8", "--dev-fee", "0.00001", "--throttle", "0.3"]
