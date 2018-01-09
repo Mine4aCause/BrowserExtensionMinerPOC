@@ -2,15 +2,15 @@
 
 <img style="float: left; margin-right: 25px;" align="center" src="monero-512x512.png" width="256px" height="256px">
 
-The proposal for Mine4aCause is to create a nonprofit organization that creates and manages a tool to engage with the communities of nonprofit organizations to harnesses their excess browser cpu capacity to mine crypto-currency. All activity would be out in the open with an simple user experience to enable individuals to see the effect of their collective work while controlling the amount of effort from off (I'm busy) to extra-generous where the tool uses what cpu it can. This idea was inspired by projects like [SETI@home](https://setiathome.berkeley.edu/) and [Folding@home](http://folding.stanford.edu/) with a further desire to put this kind of crypto-mining to serve a greater good.
+The proposal for Mine4aCause is to create a nonprofit organization that creates and manages a tool to engage with the communities of nonprofit organizations where members harnesses their excess browser CPU capacity to mine crypto-currency. All activity would be out in the open with an simple user experience to enable individuals to see the effect of their collective work while controlling the CPU utilization from *none* to *extra-generous*. This idea was inspired by projects like [SETI@home](https://setiathome.berkeley.edu/) and [Folding@home](http://folding.stanford.edu/) with a further desire to put this kind of crypto-mining to serve a greater good.
 
 ## The Tool
 
-The proposed tool is a browser extension that will generate hashes against a specific organization's pool. Clearly, a functional website that enables partner organizations to run Mine4aCause campaigns will need to be built should there be enough interest in the project. Until then, this POC focuses on a very minimal Chrome browser plugin that enables Monero generation through CoinHive to generate hashes for the CoinHive XMR miner.
+The proposed tool is a browser extension that will generate hashes against a specific organization's pool. Clearly, a functional website that enables partner organizations to run Mine4aCause campaigns will need to be built should there be enough interest in the project. Until then, this POC focuses on a very minimal Chrome browser plugin that enables Monero generation through [CoinHive](https://coinhive.com) to generate hashes for the CoinHive XMR miner.
 
 This tool can be found in the `background-miner` folder. Instructions on getting started are found in the [Getting Started](#getting_started) section. You'll install the tool in your Chrome browser and it will begin generating hashes for a Monero Pool right away. 
 
-The UI is accessible via the extensions bar icon. Clicking on the Chrome icon for the *Mine4aCause POC Extention* will bring up a bare bones interface that identifies the hashing speed, progress and offers a slider to increase or lower the resource use of the extension.
+The UI is accessible via the extension bar icon. Clicking on the Chrome icon for the *Mine4aCause POC Extention* will bring up a bare bones interface that identifies the hashing speed, progress and offers a slider to increase or lower the resource use of the extension.
 
 ### <a name="getting_started"></a>Getting Started
 
@@ -45,8 +45,8 @@ $ docker run --rm coin-hive
 1. Build a website to demonstrate campaign integration with stats per organization
 1. Update the UI
 1. Investigate [Coin Hive Stratum](https://github.com/cazala/coin-hive-stratum) as a solution to reducing payment fees.
+1. Consider writing an opensource replacement for coinhive.js
 
 ## Thanks!
 
 Special thanks to [Jan Cazala](https://github.com/cazala) and his [coin-hive](https://github.com/cazala/coin-hive) project.
-
