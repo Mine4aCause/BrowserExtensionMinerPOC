@@ -49,4 +49,4 @@ $ docker run --rm coin-hive
 
 ## Thanks!
 
-Special thanks to [Jan Cazala](https://github.com/cazala) and his [coin-hive](https://github.com/cazala/coin-hive) project.
+Special thanks to [Juan Cazala](https://github.com/cazala) and his [coin-hive](https://github.com/cazala/coin-hive) project.
