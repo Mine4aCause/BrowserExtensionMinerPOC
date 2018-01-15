@@ -1,83 +1,114 @@
 
+// Monitor the use of Battery, do not mine when the host machine is not plugged in
+var battery;
+var updateStatsId;
+
+var miner;
+var miningEffort = 70
+// Update stats once per second
+
+function getPopup() {
+  return chrome.extension.getViews()[1];
+}
+
+function updateStats() {
+  var w = getPopup();
+  if (!w) return;
+  
+	var hashesPerSecond = miner.getHashesPerSecond();
+	var totalHashes = miner.getTotalHashes();
+	var acceptedHashes = miner.getAcceptedHashes();
+
+  var hps, total, accepted
+  
+  hps = w.document.getElementById("hps")
+  total = w.document.getElementById("total")
+  accepted = w.document.getElementById("accepted")
+  isMining = w.document.getElementById("is-mining")
+
+  if (hps == null) { return }
+    
+	// Output to HTML elements...
+  hps.innerText       = hashesPerSecond;
+  total.innerText     = totalHashes;
+  accepted.innerText  = acceptedHashes;
+  if (battery) {
+    isMining.innerText = battery.charging.toString();
+  } else {
+    isMining.innerText = "true";
+  }
+}
+
+function updateEffortDisplay() {
+  var w = getPopup();  
+  if (!w) return;
+  
+  var effortValue = w.document.getElementById("mining-effort");
+  
+  if (miner.isRunning()) {
+    effortValue.innerText = miningEffort;
+  } else {
+    effortValue.innerText = "0";
+  }  
+}
+
+function manageEffort() {    
+  var w = getPopup();
+  
+  if (!w) return;
+  
+  var slider      = w.document.getElementById("effort");
+  
+  updateEffortDisplay();
+  slider.value = miningEffort.toString();
+  
+  slider.addEventListener('change', function() {
+    miningEffort = parseInt(slider.value);
+    miner.setThrottle((100 - miningEffort)/100.0);
+    updateEffortDisplay()
+  });  
+}
+
+function startMining() {
+  // Only start on non-mobile devices and if not opted-out
+  // in the last 14400 seconds (4 hours):
+  if (!miner.isMobile() && !miner.didOptOut(14400)) {
+  	miner.start();
+  }
+  updateEffortDisplay(getPopup())
+}
+
+function stopMining() {
+  miner.stop();
+  clearInterval(updateStatsId);
+  updateStats();
+  updateEffortDisplay()
+}
+
+// Initialize the Battery Interface and provide a query function for charging status
+function initBattery(b) {
+  battery = b || battery;
+  battery.addEventListener('chargingchange', function() {
+    if (!battery.charging && miner.isRunning()) {
+      stopMining();
+    } else if (battery.charging && !miner.isRunning()){
+      startMining();
+    }
+  })
+
+  if (battery.charging) startMining();
+}
+
 function loadFunc() {
 
-  // Monitor the use of Battery, do not mine when the host machine is not plugged in
-  var battery;
-  var updateStatsId;
-  
-  
   // Initialize the Miner
-  var miningEffort = 70
-  var miner = new CoinHive.Anonymous("yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK", {throttle: (100 - miningEffort)/100.0});
+  miner = new CoinHive.Anonymous("yWs0yWPPMWbIX6xhTGJrvawWj0VXmnAK", {throttle: (100 - miningEffort)/100.0});
 
   // Listen on events
   miner.on('found', function() { console.log("Hash found") })
   miner.on('accepted', function() { console.log("Hash accepted")/* Hash accepted by the pool */ })
 
-  // Update stats once per second
-  function updateStats() {    
-  	var hashesPerSecond = miner.getHashesPerSecond();
-  	var totalHashes = miner.getTotalHashes();
-  	var acceptedHashes = miner.getAcceptedHashes();
-
-    var views = chrome.extension.getViews();
-    var hps, total, accepted
-    
-    if (views.length > 1) {
-      hps = views[1].document.getElementById("hps")
-      total = views[1].document.getElementById("total")
-      accepted = views[1].document.getElementById("accepted")
-      effort = views[1].document.getElementById("effort")
-      isMining = views[1].document.getElementById("is-mining")
-    }
-
-    if (hps == null) { return }
-    
-    var newEffort = parseInt(effort.value)
-    if (newEffort != miningEffort) {
-      miningEffort = newEffort
-      miner.setThrottle((100 - miningEffort)/100.0)
-    }
-    
-  	// Output to HTML elements...
-    hps.innerText       = hashesPerSecond;
-    total.innerText     = totalHashes;
-    accepted.innerText  = acceptedHashes;
-    if (battery) {
-      isMining.innerText = battery.charging.toString();
-    } else {
-      isMining.innerText = "true";
-    }
-  }
-
-  function startMining() {
-    // Only start on non-mobile devices and if not opted-out
-    // in the last 14400 seconds (4 hours):
-    if (!miner.isMobile() && !miner.didOptOut(14400)) {
-    	miner.start();
-    }
-    updateStatsId = setInterval(updateStats, 1000);
-  }
-  
-  function stopMining() {
-    miner.stop();
-    clearInterval(updateStatsId);
-    updateStats();
-  }
-  
-  // Initialize the Battery Interface and provide a query function for charging status
-  function initBattery(b) {
-    battery = b || battery;
-    battery.addEventListener('chargingchange', function() {
-      if (!battery.charging && miner.isRunning()) {
-        stopMining();
-      } else if (battery.charging && !miner.isRunning()){
-        startMining();
-      }
-    })
-  
-    if (battery.charging) startMining();
-  }
+  manageEffort();
   
   if (navigator.battery) {
     initBattery(navigator.battery);
@@ -86,8 +117,6 @@ function loadFunc() {
   } else {
     startMining()
   }
-  
 }
 
-loadFunc()
-// window.addEventListener("load", loadFunc)
+document.addEventListener('DOMContentLoaded', loadFunc)

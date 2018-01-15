@@ -8,14 +8,29 @@
     <div class="coinhive-miner" 
 	    style="width: 256px; height: 310px"
       <ul>
-        <li>Hashes/Sec: <span id="hps" style="margin-left: 10px">0</span></li>
-        <li>Total: <span id="total" style="margin-left: 10px">0</span></li>
-        <li>Accepted: <span id="accepted" style="margin-left: 10px">0</span></li>
+        <li>Hashes/Sec: <span id="hps" style="margin-left: 10px"></span></li>
+        <li>Total: <span id="total" style="margin-left: 10px"></span></li>
+        <li>Accepted: <span id="accepted" style="margin-left: 10px"></span></li>
         <li>Is Mining: <span id="is-mining" style="margin-left: 10px">true</span></li>
+        <li>Mining Effort: <span id="mining-effort" style="margin-left: 10px"></span>%</li>
       </ul>
-      <div id="slidecontainer">
-        <input id="effort" type="range" min="0" max="100" value="50" class="slider" id="myRange">
+      <div id="slidecontainer" style="margin-top:20px">
+        <input id="effort" type="range" min="0" max="100" value="50" class="slider" list="tickmarks">
+        <datalist id="tickmarks">
+          <option value="0" label="Off">
+          <option value="10">
+          <option value="20">
+          <option value="30">
+          <option value="40">
+          <option value="50" label"Just Right">
+          <option value="60">
+          <option value="70">
+          <option value="80">
+          <option value="90">
+          <option value="100" label="Generous!">
+        </datalist>
       </div>
     </div>
+    <script src="./popup.js"></script>
   </body>
 </html>
